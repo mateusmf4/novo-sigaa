@@ -21,3 +21,8 @@
 
 # secrets
 secrets.*.js
+
+src/assets/test_*.txt
+
+.vscode/
+!.vscode/extensions.json
