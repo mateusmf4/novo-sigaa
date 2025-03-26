@@ -14,7 +14,7 @@ export default defineManifest({
 	},
 	content_scripts: [
 		{
-			matches: ['*://sigaa.ufcg.edu.br/sigaa/new'],
+			matches: ['*://sigaa.ufcg.edu.br/novoSigaa'],
 			js: ['src/newPage/index.ts']
 		}
 	],

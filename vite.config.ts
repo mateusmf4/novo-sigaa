@@ -1,8 +1,7 @@
 import { defineConfig } from 'vite';
 import { crx } from '@crxjs/vite-plugin';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { resolve as pathResolve } from 'node:path';
-import sveltePreprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 import manifest from './src/manifest';
 
 export default defineConfig(({ mode }) => {
@@ -27,11 +26,6 @@ export default defineConfig(({ mode }) => {
 				preprocess: sveltePreprocess()
 			})
 		],
-		resolve: {
-			alias: {
-				'@': pathResolve(__dirname, 'src')
-			}
-		},
 		legacy: {
 			skipWebSocketTokenCheck: true
 		},
