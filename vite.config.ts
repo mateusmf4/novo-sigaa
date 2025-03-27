@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
 	return {
 		build: {
 			emptyOutDir: true,
-			outDir: 'build'
+			outDir: 'build',
 			// rollupOptions: {
 			// 	output: {
 			// 		chunkFileNames: 'assets/chunk-[hash].js'
@@ -19,10 +19,10 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [svelte(), tailwindcss(), crx({ manifest })],
 		legacy: {
-			skipWebSocketTokenCheck: true
+			skipWebSocketTokenCheck: true,
 		},
 		server: {
-			cors: true
-		}
+			cors: true,
+		},
 	};
 });

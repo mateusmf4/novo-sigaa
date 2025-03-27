@@ -10,13 +10,13 @@ export default defineManifest({
 		16: 'img/logo-16.png',
 		32: 'img/logo-32.png',
 		48: 'img/logo-48.png',
-		128: 'img/logo-128.png'
+		128: 'img/logo-128.png',
 	},
 	content_scripts: [
 		{
 			matches: ['*://sigaa.ufcg.edu.br/novoSigaa'],
-			js: ['src/newPage/index.ts']
-		}
+			js: ['src/newPage/index.ts'],
+		},
 	],
 	web_accessible_resources: [
 		{
@@ -24,11 +24,11 @@ export default defineManifest({
 				'img/logo-16.png',
 				'img/logo-32.png',
 				'img/logo-48.png',
-				'img/logo-128.png'
+				'img/logo-128.png',
 			],
-			matches: []
-		}
+			matches: [],
+		},
 	],
 	permissions: ['storage'],
-	host_permissions: ['<all_urls>']
+	host_permissions: ['<all_urls>'],
 });

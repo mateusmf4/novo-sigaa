@@ -7,7 +7,7 @@ export function parseInicial(document: Document) {
 		(x) => x.textContent?.trim() ?? '?'
 	);
 	return {
-		turmas
+		turmas,
 	};
 }
 
@@ -58,7 +58,7 @@ export function parseTurma(document: Document): Turma {
 				.map((x) => x.trim());
 			return {
 				horario,
-				titulo
+				titulo,
 			};
 		});
 
@@ -74,7 +74,7 @@ export function parseTurma(document: Document): Turma {
 			titulo,
 			inicio,
 			fim,
-			descricao
+			descricao,
 		};
 	});
 	return {
@@ -82,6 +82,6 @@ export function parseTurma(document: Document): Turma {
 		codigo,
 		professor,
 		ultimasNoticias,
-		aulas
+		aulas,
 	};
 }
