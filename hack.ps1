@@ -1,0 +1,1 @@
+pnpm dlx chokidar-cli "src" -i "src/newPage/style.css" -c 'pwsh .\hack1.ps1'

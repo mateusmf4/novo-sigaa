@@ -19,21 +19,9 @@
 	{#await dataPromise}
 		<p>Carregando..</p>
 	{:then data}
-		<p>{data.turmas}</p>
+		<p class="text-amber-700">{data.turmas}</p>
 		<p>{data.nome}</p>
 		<p>{data.codigo}</p>
 		<p>{data.professor}</p>
 	{/await}
 </main>
-
-<style>
-	:global(:root) {
-		font-family: system-ui;
-	}
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-		border: 0;
-	}
-</style>
