@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 
-.opacity-gradient-mask-bottom {
-	mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 100%);
-	mask-size: 100% 100%;
-	mask-repeat: no-repeat;
-	mask-position: left top;
+@layer base {
+	dialog {
+		margin: auto;
+	}
 }
+
+@custom-variant hocus (&:hover, &:focus);

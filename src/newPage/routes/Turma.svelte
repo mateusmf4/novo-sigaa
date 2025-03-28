@@ -3,6 +3,7 @@
 	import { parseNoticia, parseTurma, type PaginaTurmaNoticia } from '../lib/scraper';
 	import { toTitleCase } from '../lib/utils';
 	import { SigaaRequests } from '../lib/requests';
+	import TurmaNoticiaCard from '../components/TurmaNoticiaCard.svelte';
 
 	const id = $derived(useRoute()!.location!.params.id as string);
 	const dataPromise = $derived(
@@ -46,26 +47,7 @@
 						<h2>Ultimas noticias</h2>
 						<div class="flex gap-6">
 							{#each data.ultimasNoticias as noticia}
-								<div
-									class="flex max-h-40 w-72 cursor-pointer flex-col rounded-xl bg-white p-3 pb-2 shadow outline outline-gray-300 transition-all hover:-translate-y-1.5 hover:shadow-lg"
-								>
-									<h1 class="mb-1.5 text-xl">
-										{noticia.titulo}
-									</h1>
-									{#await fetchNoticia(noticia)}
-										<p class="italic opacity-50">Carregaando..</p>
-									{:then data}
-										<p
-											class="opacity-gradient-mask-bottom line-clamp-3 overflow-hidden text-ellipsis"
-										>
-											{data.conteudo}
-										</p>
-									{/await}
-									<div class="flex-1"></div>
-									<span class="self-end text-sm text-gray-400 italic"
-										>{noticia.horario}</span
-									>
-								</div>
+								<TurmaNoticiaCard {noticia} />
 							{/each}
 						</div>
 					</section>
