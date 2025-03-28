@@ -1,4 +1,7 @@
-const SIGAA_URL = 'https://sigaa.ufcg.edu.br/sigaa/portais/discente/discente.jsf' as const;
+import type { PaginaTurmaNoticia } from './scraper';
+
+const SIGAA_URL_DISCENTE = 'https://sigaa.ufcg.edu.br/sigaa/portais/discente/discente.jsf' as const;
+const SIGAA_URL_AVA = 'https://sigaa.ufcg.edu.br/sigaa/ava/index.jsf' as const;
 const COMMON_OPTIONS = {
 	headers: {
 		accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -37,6 +40,7 @@ class SigaaRequests {
 	}
 
 	private async checkCache(key: string, fn: () => Promise<string>): Promise<string> {
+		await new Promise((r) => setTimeout(r, 200));
 		if (this.cachedRequests.has(key)) {
 			console.log(key, 'tinha no cache!');
 			return this.cachedRequests.get(key)!;
@@ -48,7 +52,7 @@ class SigaaRequests {
 
 	async requestInicial(): Promise<string> {
 		return this.checkCache('inicial', async () => {
-			const req = await fetch(SIGAA_URL, {
+			const req = await fetch(SIGAA_URL_DISCENTE, {
 				...COMMON_OPTIONS,
 				method: 'GET',
 			});
@@ -66,7 +70,19 @@ class SigaaRequests {
 					'form_acessarTurmaVirtualj_id_1:j_id_jsp_340461267_387j_id_1',
 				frontEndIdTurma: frontendId,
 			});
-			const req = await fetch(SIGAA_URL, {
+			const req = await fetch(SIGAA_URL_DISCENTE, {
+				...COMMON_OPTIONS,
+				body,
+				method: 'POST',
+			});
+			return checkErrors(await req.text());
+		});
+	}
+
+	async requestNoticia(noticia: PaginaTurmaNoticia): Promise<string> {
+		return this.checkCache(`noticia/${noticia.id}`, async () => {
+			const body = new URLSearchParams(noticia.formData);
+			const req = await fetch(SIGAA_URL_AVA, {
 				...COMMON_OPTIONS,
 				body,
 				method: 'POST',

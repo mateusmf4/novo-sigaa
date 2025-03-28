@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { links, useRoute } from '@dvcol/svelte-simple-router';
-	import rawHtml from '../../assets/test_turma.txt?raw';
-	import { parseTurma } from '../lib/scraper';
+	import { parseNoticia, parseTurma, type PaginaTurmaNoticia } from '../lib/scraper';
 	import { toTitleCase } from '../lib/utils';
 	import { SigaaRequests } from '../lib/requests';
 
@@ -14,6 +13,10 @@
 			return res1;
 		})(id)
 	);
+
+	async function fetchNoticia(id: PaginaTurmaNoticia) {
+		return parseNoticia(Document.parseHTMLUnsafe(await SigaaRequests.requestNoticia(id)));
+	}
 </script>
 
 <main class="flex min-h-full flex-col" use:links>
@@ -22,7 +25,9 @@
 	</nav>
 	<div class="flex flex-1 items-stretch">
 		{#await dataPromise}
-			<p>Carregando..</p>
+			<div class="flex flex-1 flex-col items-center justify-center">
+				<p class="italic opacity-50">Carregando...</p>
+			</div>
 		{:then data}
 			<nav class="flex min-w-2xs flex-col bg-gray-50">hi</nav>
 			<div class="flex flex-1 flex-col">
@@ -39,18 +44,23 @@
 				<div class="flex flex-1 flex-col gap-6 p-6">
 					<section class="flex flex-col">
 						<h2>Ultimas noticias</h2>
-						<div class="flex gap-5">
+						<div class="flex gap-6">
 							{#each data.ultimasNoticias as noticia}
 								<div
-									class="flex w-72 cursor-pointer flex-col rounded-xl bg-white p-3 pb-2 shadow outline outline-gray-300 transition-all hover:-translate-y-1.5 hover:shadow-lg"
+									class="flex max-h-40 w-72 cursor-pointer flex-col rounded-xl bg-white p-3 pb-2 shadow outline outline-gray-300 transition-all hover:-translate-y-1.5 hover:shadow-lg"
 								>
 									<h1 class="mb-1.5 text-xl">
 										{noticia.titulo}
 									</h1>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-										do eiusmod
-									</p>
+									{#await fetchNoticia(noticia)}
+										<p class="italic opacity-50">Carregaando..</p>
+									{:then data}
+										<p
+											class="opacity-gradient-mask-bottom line-clamp-3 overflow-hidden text-ellipsis"
+										>
+											{data.conteudo}
+										</p>
+									{/await}
 									<div class="flex-1"></div>
 									<span class="self-end text-sm text-gray-400 italic"
 										>{noticia.horario}</span

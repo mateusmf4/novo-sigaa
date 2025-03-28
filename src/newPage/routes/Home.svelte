@@ -23,7 +23,8 @@
 					<a
 						href="/turma/:id"
 						class="text-blue-700 underline"
-						use:link={{ params: { id: turma.frontendId } }}>{turma.nome}</a
+						use:link={{ params: { id: turma.formData.frontEndIdTurma } }}
+						>{turma.nome}</a
 					>
 				{/each}
 			</div>

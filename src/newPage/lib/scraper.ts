@@ -1,7 +1,6 @@
 export interface PaginaInicialTurmaInfo {
 	nome: string;
-	formId: string;
-	frontendId: string;
+	formData: JspViewFormData;
 }
 
 export interface PaginaInicial {
@@ -16,14 +15,10 @@ export function parseInicial(document: Document): PaginaInicial {
 			.querySelectorAll('a')!,
 		(x) => {
 			const nome = x.textContent?.trim() ?? '?';
-			const [_, formId, frontendId] =
-				x.attributes
-					.getNamedItem('onclick')
-					?.textContent?.match(/{'(.+?)':'\1','frontEndIdTurma':'(.+?)'}/) ?? [];
+			const formData = parseJspViewForm(x.parentElement! as HTMLFormElement);
 			return {
 				nome,
-				formId,
-				frontendId,
+				formData,
 			};
 		}
 	);
@@ -32,14 +27,18 @@ export function parseInicial(document: Document): PaginaInicial {
 	};
 }
 
+export interface PaginaTurmaNoticia {
+	id: string;
+	horario: string;
+	titulo: string;
+	formData: JspViewFormData;
+}
+
 export interface PaginaTurma {
 	nome: string;
 	codigo: string;
 	professor: string;
-	ultimasNoticias: {
-		horario: string;
-		titulo: string;
-	}[];
+	ultimasNoticias: PaginaTurmaNoticia[];
 	aulas: {
 		titulo: string;
 		inicio: string;
@@ -68,18 +67,24 @@ export function parseTurma(document: Document): PaginaTurma {
 		?.querySelector('small > i')
 		?.textContent?.trim()!;
 
-	const ultimasNoticias = turmaBlocoDireito(document, 'Notícias')!
+	const noticiasElem = turmaBlocoDireito(document, 'Notícias')!;
+	const noticiasForms = noticiasElem.querySelectorAll('form');
+	const ultimasNoticias = noticiasElem
 		.textContent!.trim()
 		.split('(Visualizar)')
 		.filter((x) => x.trim())
-		.map((str) => {
+		.map((str, i) => {
+			const formData = parseJspViewForm(noticiasForms[i]);
+			const id = formData.id as string;
 			const [horario, titulo] = str
 				.trim()
 				.split('\n')
 				.map((x) => x.trim());
 			return {
+				id,
 				horario,
 				titulo,
+				formData,
 			};
 		});
 
@@ -105,4 +110,28 @@ export function parseTurma(document: Document): PaginaTurma {
 		ultimasNoticias,
 		aulas,
 	};
+}
+
+export function parseNoticia(document: Document) {
+	const conteudo = document.querySelector('.conteudoNoticia')?.textContent?.trim() ?? '';
+	return {
+		conteudo,
+	};
+}
+
+export type JspViewFormData = Record<string, string>;
+
+function parseJspViewForm(form: HTMLFormElement): JspViewFormData {
+	let entries = Object.fromEntries(new FormData(form).entries()) as JspViewFormData;
+	try {
+		const extra = JSON.parse(
+			form
+				.querySelector('a')!
+				.getAttribute('onclick')!
+				.match(/({'.+?'})/)![1]
+				.replace(/'/g, '"')
+		);
+		entries = { ...entries, ...extra };
+	} catch (_) {}
+	return entries;
 }
