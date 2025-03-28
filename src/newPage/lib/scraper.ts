@@ -1,17 +1,38 @@
-export function parseInicial(document: Document) {
+export interface PaginaInicialTurmaInfo {
+	nome: string;
+	formId: string;
+	frontendId: string;
+}
+
+export interface PaginaInicial {
+	turmas: PaginaInicialTurmaInfo[];
+}
+
+export function parseInicial(document: Document): PaginaInicial {
 	const turmas = Array.from(
 		document
 			.getElementById('turmas-portal')
 			?.querySelectorAll(':scope > table')[1]
 			.querySelectorAll('a')!,
-		(x) => x.textContent?.trim() ?? '?'
+		(x) => {
+			const nome = x.textContent?.trim() ?? '?';
+			const [_, formId, frontendId] =
+				x.attributes
+					.getNamedItem('onclick')
+					?.textContent?.match(/{'(.+?)':'\1','frontEndIdTurma':'(.+?)'}/) ?? [];
+			return {
+				nome,
+				formId,
+				frontendId,
+			};
+		}
 	);
 	return {
 		turmas,
 	};
 }
 
-export interface Turma {
+export interface PaginaTurma {
 	nome: string;
 	codigo: string;
 	professor: string;
@@ -35,7 +56,7 @@ function turmaBlocoDireito(document: Document, nome: string): Element | undefine
 	);
 }
 
-export function parseTurma(document: Document): Turma {
+export function parseTurma(document: Document): PaginaTurma {
 	const nome = document.getElementById('linkNomeTurma')!.textContent!;
 	const codigo = document
 		.getElementById('linkCodigoTurma')!
@@ -66,7 +87,7 @@ export function parseTurma(document: Document): Turma {
 		document.querySelectorAll('[id="formAva:panelTopicosNaoSelecionados"] .topico-aula')
 	).map((el) => {
 		const tituloString = el.querySelector('.titulo')!.textContent!.trim();
-		const descricao = el.querySelector('.conteudotopico p')!.textContent!.trim();
+		const descricao = el.querySelector('.conteudotopico p')?.textContent?.trim() ?? '';
 		const [_, titulo, inicio, fim] = tituloString.match(
 			/(.+?) \((\d{2}\/\d{2}\/\d{4}) - (\d{2}\/\d{2}\/\d{4})\)/
 		)!;

@@ -20,7 +20,7 @@
 		},
 		{
 			name: RouteName.Turma,
-			path: `/${RouteName.Turma}`,
+			path: `/${RouteName.Turma}/:id`,
 			component: Turma,
 		},
 	] as const;

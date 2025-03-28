@@ -1,20 +1,19 @@
-<script>
-	import { links } from '@dvcol/svelte-simple-router';
-	import inicialHtml from '../../assets/test_in.txt?raw';
-	import turmaHtml from '../../assets/test_turma.txt?raw';
-	import { parseInicial, parseTurma } from '../lib/scraper';
+<script lang="ts">
+	import { links, useRoute } from '@dvcol/svelte-simple-router';
+	import rawHtml from '../../assets/test_turma.txt?raw';
+	import { parseTurma } from '../lib/scraper';
 	import { toTitleCase } from '../lib/utils';
+	import { SigaaRequests } from '../lib/requests';
 
-	const dataPromise = (async () => {
-		const res1 = parseTurma(Document.parseHTMLUnsafe(turmaHtml));
-		console.log(res1);
-		const res2 = parseInicial(Document.parseHTMLUnsafe(inicialHtml));
-		console.log(res2);
-		return {
-			...res1,
-			...res2,
-		};
-	})();
+	const id = $derived(useRoute()!.location!.params.id as string);
+	const dataPromise = $derived(
+		(async (id: string) => {
+			const html = await SigaaRequests.requestTurma(id);
+			const res1 = parseTurma(Document.parseHTMLUnsafe(html));
+			console.log(res1);
+			return res1;
+		})(id)
+	);
 </script>
 
 <main class="flex min-h-full flex-col" use:links>
@@ -52,6 +51,7 @@
 										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
 										do eiusmod
 									</p>
+									<div class="flex-1"></div>
 									<span class="self-end text-sm text-gray-400 italic"
 										>{noticia.horario}</span
 									>
