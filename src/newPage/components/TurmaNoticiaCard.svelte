@@ -1,24 +1,23 @@
 <script lang="ts">
 	import { type PaginaTurmaNoticia } from '../lib/sigaa/types';
 	import Sigaa from '../lib/sigaa';
+	import Modal from './Modal.svelte';
 
 	const { noticia }: { noticia: PaginaTurmaNoticia } = $props();
 
-	let dialog = $state() as HTMLDialogElement;
+	let showModal = $state(false);
 	let promise = $derived(fetchData(noticia));
 
 	async function fetchData(noticia: PaginaTurmaNoticia) {
 		return await Sigaa.getTurmaNoticia(noticia);
 	}
-
-	function onclick() {
-		dialog.showModal();
-	}
 </script>
 
 <button
 	class="hocus:-translate-y-1.5 hocus:shadow-lg flex max-h-40 w-72 cursor-pointer appearance-none flex-col rounded-xl bg-white p-3 pb-2 text-left shadow outline outline-gray-300 transition-all select-none focus:outline-gray-500"
-	{onclick}
+	onclick={() => {
+		showModal = true;
+	}}
 >
 	<h1 class="mb-1.5 line-clamp-1 text-xl text-ellipsis">
 		{noticia.titulo}
@@ -34,13 +33,7 @@
 	<span class="self-end text-sm text-gray-400 italic">{noticia.horario}</span>
 </button>
 
-<dialog
-	bind:this={dialog}
-	onclick={(e) => {
-		if (e.target === dialog) dialog.close();
-	}}
-	class="min-h-32 min-w-72 overflow-visible bg-transparent lg:max-w-3/5"
->
+<Modal bind:showModal class="min-h-32 min-w-72 overflow-visible bg-transparent lg:max-w-3/5">
 	<div
 		class="flex flex-col items-center rounded-xl bg-white p-3 shadow outline outline-gray-300 sm:mx-4"
 	>
@@ -65,7 +58,7 @@
 			>
 		</form>
 	</div>
-</dialog>
+</Modal>
 
 <style>
 	.opacity-gradient-mask-bottom {
@@ -73,28 +66,5 @@
 		mask-size: 100% 100%;
 		mask-repeat: no-repeat;
 		mask-position: left top;
-	}
-
-	dialog[open] {
-		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-	}
-	@keyframes zoom {
-		from {
-			transform: scale(0.95);
-		}
-		to {
-			transform: scale(1);
-		}
-	}
-	dialog[open]::backdrop {
-		animation: fade 0.2s ease-out;
-	}
-	@keyframes fade {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
 	}
 </style>
