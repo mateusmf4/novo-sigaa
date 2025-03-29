@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RouterView } from '@dvcol/svelte-simple-router';
+	import { RouterView, RouterContext, links } from '@dvcol/svelte-simple-router';
 	import type { Route, RouterOptions } from '@dvcol/svelte-simple-router';
 
 	import Main from './routes/Home.svelte';
@@ -27,9 +27,17 @@
 
 	export const options: RouterOptions<RouteNames> = {
 		base: 'novoSigaa',
-		nameAsTitle: true,
 		routes,
 	} as const;
 </script>
 
-<RouterView {options} />
+<RouterContext {options}>
+	<main class="flex min-h-screen flex-col" use:links>
+		<nav class="flex min-h-8 w-full items-center bg-gray-100 p-2">
+			<a href="/">Sigaa</a>
+		</nav>
+		<div class="flex-1">
+			<RouterView />
+		</div>
+	</main>
+</RouterContext>

@@ -18,8 +18,9 @@ export class RequisicaoInvalida extends Error {
 	}
 }
 
-function checkErrors(body: string): string {
+function checkErrors(body: string, checkInicial = true): string {
 	if (
+		checkInicial &&
 		body.includes('Dados Institucionais') &&
 		body.includes('capes.jpg') &&
 		body.includes('Turmas do Semestre')
@@ -40,7 +41,6 @@ class SigaaRequests {
 	}
 
 	private async checkCache(key: string, fn: () => Promise<string>): Promise<string> {
-		await new Promise((r) => setTimeout(r, 200));
 		if (this.cachedRequests.has(key)) {
 			console.log(key, 'tinha no cache!');
 			return this.cachedRequests.get(key)!;
@@ -56,7 +56,7 @@ class SigaaRequests {
 				...COMMON_OPTIONS,
 				method: 'GET',
 			});
-			return await req.text();
+			return checkErrors(await req.text(), false);
 		});
 	}
 
