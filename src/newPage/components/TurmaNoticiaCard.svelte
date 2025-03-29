@@ -22,7 +22,7 @@
 	class="hocus:-translate-y-1.5 hocus:shadow-lg flex max-h-40 w-72 cursor-pointer appearance-none flex-col rounded-xl bg-white p-3 pb-2 text-left shadow outline outline-gray-300 transition-all select-none focus:outline-gray-500"
 	{onclick}
 >
-	<h1 class="mb-1.5 text-xl">
+	<h1 class="mb-1.5 line-clamp-1 text-xl text-ellipsis">
 		{noticia.titulo}
 	</h1>
 	{#await promise}

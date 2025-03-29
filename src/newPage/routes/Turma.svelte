@@ -27,7 +27,7 @@
 	}
 </script>
 
-<main class="flex min-h-full flex-col" use:links>
+<main class="flex min-h-screen flex-col" use:links>
 	<nav class="flex min-h-8 w-full items-center bg-gray-100 p-2">
 		<a href="/">Sigaa</a>
 	</nav>
@@ -38,7 +38,7 @@
 			</div>
 		{:then data}
 			<nav class="flex min-w-2xs flex-col bg-gray-50">hi</nav>
-			<div class="flex flex-1 flex-col overflow-x-scroll">
+			<div class="flex flex-1 flex-col overflow-auto">
 				<header class="flex justify-between border-b border-gray-300 p-4">
 					<div class="flex items-center gap-4">
 						<div class="aspect-square h-full w-16 rounded-full bg-red-100"></div>
@@ -59,7 +59,7 @@
 						</div>
 						<div class="flex items-center gap-2">
 							<span class="leading-none">Aulas</span>
-							<ProgressBar value={1.0} />
+							<ProgressBar value={data.aulasMinistradas / data.aulasTotal} />
 						</div>
 					</div>
 				</header>

@@ -45,20 +45,22 @@ export interface PaginaTurma {
 		fim: string;
 		descricao: string;
 	}[];
+	aulasMinistradas: number;
+	aulasTotal: number;
 	links: {
 		frequencia: JspViewFormData;
 	};
 }
 
-function turmaBlocoDireito(document: Document, nome: string): Element | undefined {
-	return Array.from(document.querySelectorAll('div.blocoDireita > div.rich-stglpanel-body')).find(
-		(el) => {
-			return el.parentElement?.querySelector('.headerBloco')?.textContent?.trim() === nome;
-		}
-	);
-}
-
 export function parseTurma(document: Document): PaginaTurma {
+	function findBlocoDireita(nome: string): Element | undefined {
+		return Array.from(
+			document.querySelectorAll('div.blocoDireita > div.rich-stglpanel-body')
+		).find((el) => {
+			return el.parentElement?.querySelector('.headerBloco')?.textContent?.trim() === nome;
+		});
+	}
+
 	const nome = document.getElementById('linkNomeTurma')!.textContent!;
 	const codigo = document
 		.getElementById('linkCodigoTurma')!
@@ -70,7 +72,7 @@ export function parseTurma(document: Document): PaginaTurma {
 		?.querySelector('small > i')
 		?.textContent?.trim()!;
 
-	const noticiasElem = turmaBlocoDireito(document, 'Notícias')!;
+	const noticiasElem = findBlocoDireita('Notícias')!;
 	const noticiasForms = noticiasElem.querySelectorAll('form');
 	const ultimasNoticias = noticiasElem
 		.textContent!.trim()
@@ -107,6 +109,11 @@ export function parseTurma(document: Document): PaginaTurma {
 		};
 	});
 
+	const [aulasMinistradas, aulasTotal] = findBlocoDireita('Andamento das Aulas')!
+		.querySelector('i')!
+		.textContent!.split('/')
+		.map((x) => parseInt(x.trim()));
+
 	const linkFrequencia = parseJspViewForm(
 		Array.from(document.querySelectorAll('div.itemMenu')).find(
 			(x) => x.textContent === 'Frequência'
@@ -118,6 +125,8 @@ export function parseTurma(document: Document): PaginaTurma {
 		professor,
 		ultimasNoticias,
 		aulas,
+		aulasMinistradas,
+		aulasTotal,
 		links: {
 			frequencia: linkFrequencia,
 		},
