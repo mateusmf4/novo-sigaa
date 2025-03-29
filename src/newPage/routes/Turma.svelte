@@ -38,7 +38,21 @@
 			<p class="italic opacity-50">Carregando...</p>
 		</div>
 	{:then turma}
-		<nav class="flex min-w-2xs flex-col bg-gray-50">hi</nav>
+		<nav class="flex w-2xs flex-col bg-gray-50 p-4">
+			<div class="flex items-stretch gap-3">
+				<img
+					src={`https://api.dicebear.com/9.x/shapes/svg?seed=${id}`}
+					alt="abstract logo"
+					class="h-12 rounded-full"
+				/>
+				<div class="flex flex-col justify-between">
+					<p class="line-clamp-1 text-xl/5 break-all text-ellipsis">
+						{toTitleCase(turma.nome)}
+					</p>
+					<p class="text-sm/4">{toTitleCase(turma.professor)}</p>
+				</div>
+			</div>
+		</nav>
 		<div class="flex flex-1 flex-col overflow-auto">
 			<header class="flex justify-between border-b border-gray-300 p-4">
 				<div class="flex items-stretch gap-4">
