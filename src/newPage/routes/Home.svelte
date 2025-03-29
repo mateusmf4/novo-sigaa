@@ -1,10 +1,10 @@
 <script>
 	import { links, link } from '@dvcol/svelte-simple-router';
-	import rawHtml from '../../assets/test_in.txt?raw';
 	import { parseInicial } from '../lib/scraper';
+	import { SigaaRequests } from '../lib/requests';
 
 	const dataPromise = (async () => {
-		const res1 = parseInicial(Document.parseHTMLUnsafe(rawHtml));
+		const res1 = parseInicial(Document.parseHTMLUnsafe(await SigaaRequests.requestInicial()));
 		console.log(res1);
 		return res1;
 	})();
@@ -30,7 +30,7 @@
 			</div>
 		{:catch e}
 			{console.error(e)}
-			<p>vish deu errao</p>
+			<p>vish deu erro</p>
 		{/await}
 	</div>
 </main>

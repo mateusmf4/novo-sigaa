@@ -48,7 +48,7 @@
 							<p>{toTitleCase(data.professor)}</p>
 						</div>
 					</div>
-					<div class="flex flex-col justify-between">
+					<div class="flex flex-col justify-center gap-5">
 						<div class="flex items-center gap-2">
 							<span class="leading-none">Faltas</span>
 							{#await fetchFrequencia(data).then(totalFaltas)}
