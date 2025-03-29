@@ -1,4 +1,4 @@
-import type { PaginaTurma, PaginaTurmaNoticia } from './scraper';
+import type { PaginaTurma, PaginaTurmaNoticia } from './types';
 
 const SIGAA_URL_DISCENTE = 'https://sigaa.ufcg.edu.br/sigaa/portais/discente/discente.jsf' as const;
 const SIGAA_URL_AVA = 'https://sigaa.ufcg.edu.br/sigaa/ava/index.jsf' as const;
@@ -105,4 +105,4 @@ class SigaaRequests {
 }
 
 const instance = new SigaaRequests();
-export { instance as SigaaRequests };
+export default instance;

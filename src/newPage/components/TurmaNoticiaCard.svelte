@@ -1,16 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { SigaaRequests } from '../lib/requests';
-	import { parseNoticia, type PaginaTurmaNoticia } from '../lib/scraper';
-	import { fade } from 'svelte/transition';
+	import { type PaginaTurmaNoticia } from '../lib/sigaa/types';
+	import Sigaa from '../lib/sigaa';
 
 	const { noticia }: { noticia: PaginaTurmaNoticia } = $props();
 
 	let dialog = $state() as HTMLDialogElement;
 	let promise = $derived(fetchData(noticia));
 
-	async function fetchData(id: PaginaTurmaNoticia) {
-		return parseNoticia(Document.parseHTMLUnsafe(await SigaaRequests.requestNoticia(id)));
+	async function fetchData(noticia: PaginaTurmaNoticia) {
+		return await Sigaa.getTurmaNoticia(noticia);
 	}
 
 	function onclick() {

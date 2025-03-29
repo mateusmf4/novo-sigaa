@@ -1,11 +1,4 @@
-export interface PaginaInicialTurmaInfo {
-	nome: string;
-	formData: JspViewFormData;
-}
-
-export interface PaginaInicial {
-	turmas: PaginaInicialTurmaInfo[];
-}
+import type { Frequencia, JspViewFormData, PaginaInicial, PaginaTurma } from './types';
 
 export function parseInicial(document: Document): PaginaInicial {
 	const turmas = Array.from(
@@ -24,31 +17,6 @@ export function parseInicial(document: Document): PaginaInicial {
 	);
 	return {
 		turmas,
-	};
-}
-
-export interface PaginaTurmaNoticia {
-	id: string;
-	horario: string;
-	titulo: string;
-	formData: JspViewFormData;
-}
-
-export interface PaginaTurma {
-	nome: string;
-	codigo: string;
-	professor: string;
-	ultimasNoticias: PaginaTurmaNoticia[];
-	aulas: {
-		titulo: string;
-		inicio: string;
-		fim: string;
-		descricao: string;
-	}[];
-	aulasMinistradas: number;
-	aulasTotal: number;
-	links: {
-		frequencia: JspViewFormData;
 	};
 }
 
@@ -140,12 +108,6 @@ export function parseNoticia(document: Document) {
 	};
 }
 
-export interface Frequencia {
-	date: string;
-	registrada: boolean;
-	faltas: number;
-}
-
 export function parseFrequencia(document: Document): Frequencia[] {
 	return Array.from(document.querySelectorAll('table.listing > tbody > tr')).map((row) => {
 		const date = row.children[0].textContent?.trim() ?? '';
@@ -158,8 +120,6 @@ export function parseFrequencia(document: Document): Frequencia[] {
 		};
 	});
 }
-
-export type JspViewFormData = Record<string, string>;
 
 function parseJspViewForm(anchor: Element): JspViewFormData {
 	const code = anchor.getAttribute('onclick') ?? '';

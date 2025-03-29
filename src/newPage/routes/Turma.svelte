@@ -1,25 +1,23 @@
 <script lang="ts">
 	import { links, useRoute } from '@dvcol/svelte-simple-router';
-	import { parseFrequencia, parseTurma, type Frequencia, type PaginaTurma } from '../lib/scraper';
+	import type { Frequencia, PaginaTurma } from '../lib/sigaa/types';
 	import { toTitleCase } from '../lib/utils';
-	import { SigaaRequests } from '../lib/requests';
+	import Sigaa from '../lib/sigaa';
+
 	import TurmaNoticiaCard from '../components/TurmaNoticiaCard.svelte';
 	import ProgressBar from '../components/ProgressBar.svelte';
 
 	const id = $derived(useRoute()!.location!.params.id as string);
 	const dataPromise = $derived(
 		(async (id: string) => {
-			const html = await SigaaRequests.requestTurma(id);
-			const res1 = parseTurma(Document.parseHTMLUnsafe(html));
-			console.log(res1);
-			return res1;
+			const turma = await Sigaa.getTurma(id);
+			console.log(turma);
+			return turma;
 		})(id)
 	);
 
 	async function fetchFrequencia(turma: PaginaTurma) {
-		return parseFrequencia(
-			Document.parseHTMLUnsafe(await SigaaRequests.requestTurmaFrequencia(turma))
-		);
+		return await Sigaa.getTurmaFrequencia(turma);
 	}
 
 	function totalFaltas(freqs: Frequencia[]): number {

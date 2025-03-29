@@ -1,12 +1,11 @@
 <script>
-	import { links, link } from '@dvcol/svelte-simple-router';
-	import { parseInicial } from '../lib/scraper';
-	import { SigaaRequests } from '../lib/requests';
+	import { links } from '@dvcol/svelte-simple-router';
+	import Sigaa from '../lib/sigaa';
 
 	const dataPromise = (async () => {
-		const res1 = parseInicial(Document.parseHTMLUnsafe(await SigaaRequests.requestInicial()));
-		console.log(res1);
-		return res1;
+		const data = await Sigaa.getInicial();
+		console.log(data);
+		return data;
 	})();
 </script>
 
@@ -21,11 +20,11 @@
 			<div class="flex flex-col">
 				{#each data.turmas as turma}
 					<a
-						href="/turma/:id"
+						href={`/turma/${turma.formData.frontEndIdTurma}`}
 						class="text-blue-700 underline"
-						use:link={{ params: { id: turma.formData.frontEndIdTurma } }}
-						>{turma.nome}</a
 					>
+						{turma.nome}
+					</a>
 				{/each}
 			</div>
 		{:catch e}
