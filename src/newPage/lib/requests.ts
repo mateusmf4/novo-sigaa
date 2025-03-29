@@ -1,4 +1,4 @@
-import type { PaginaTurmaNoticia } from './scraper';
+import type { PaginaTurma, PaginaTurmaNoticia } from './scraper';
 
 const SIGAA_URL_DISCENTE = 'https://sigaa.ufcg.edu.br/sigaa/portais/discente/discente.jsf' as const;
 const SIGAA_URL_AVA = 'https://sigaa.ufcg.edu.br/sigaa/ava/index.jsf' as const;
@@ -71,6 +71,18 @@ class SigaaRequests {
 				frontEndIdTurma: frontendId,
 			});
 			const req = await fetch(SIGAA_URL_DISCENTE, {
+				...COMMON_OPTIONS,
+				body,
+				method: 'POST',
+			});
+			return checkErrors(await req.text());
+		});
+	}
+
+	async requestTurmaFrequencia(turma: PaginaTurma): Promise<string> {
+		return this.checkCache(`turma/${turma.codigo}/frequencia`, async () => {
+			const body = new URLSearchParams(turma.links.frequencia);
+			const req = await fetch(SIGAA_URL_AVA, {
 				...COMMON_OPTIONS,
 				body,
 				method: 'POST',

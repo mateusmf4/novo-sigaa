@@ -15,7 +15,7 @@ export function parseInicial(document: Document): PaginaInicial {
 			.querySelectorAll('a')!,
 		(x) => {
 			const nome = x.textContent?.trim() ?? '?';
-			const formData = parseJspViewForm(x.parentElement! as HTMLFormElement);
+			const formData = parseJspViewForm(x);
 			return {
 				nome,
 				formData,
@@ -45,6 +45,9 @@ export interface PaginaTurma {
 		fim: string;
 		descricao: string;
 	}[];
+	links: {
+		frequencia: JspViewFormData;
+	};
 }
 
 function turmaBlocoDireito(document: Document, nome: string): Element | undefined {
@@ -74,7 +77,7 @@ export function parseTurma(document: Document): PaginaTurma {
 		.split('(Visualizar)')
 		.filter((x) => x.trim())
 		.map((str, i) => {
-			const formData = parseJspViewForm(noticiasForms[i]);
+			const formData = parseJspViewForm(noticiasForms[i].querySelector('a')!);
 			const id = formData.id as string;
 			const [horario, titulo] = str
 				.trim()
@@ -103,12 +106,21 @@ export function parseTurma(document: Document): PaginaTurma {
 			descricao,
 		};
 	});
+
+	const linkFrequencia = parseJspViewForm(
+		Array.from(document.querySelectorAll('div.itemMenu')).find(
+			(x) => x.textContent === 'Frequência'
+		)!.parentElement!
+	);
 	return {
 		nome,
 		codigo,
 		professor,
 		ultimasNoticias,
 		aulas,
+		links: {
+			frequencia: linkFrequencia,
+		},
 	};
 }
 
@@ -119,18 +131,46 @@ export function parseNoticia(document: Document) {
 	};
 }
 
+export interface Frequencia {
+	date: string;
+	registrada: boolean;
+	faltas: number;
+}
+
+export function parseFrequencia(document: Document): Frequencia[] {
+	return Array.from(document.querySelectorAll('table.listing > tbody > tr')).map((row) => {
+		const date = row.children[0].textContent?.trim() ?? '';
+		const situacao = row.children[1].textContent?.trim() ?? '';
+		const faltas = situacao.match(/(\d+) Falta/);
+		return {
+			date,
+			registrada: situacao !== 'Não Registrada',
+			faltas: faltas ? parseInt(faltas[1]) : 0,
+		};
+	});
+}
+
 export type JspViewFormData = Record<string, string>;
 
-function parseJspViewForm(form: HTMLFormElement): JspViewFormData {
+function parseJspViewForm(anchor: Element): JspViewFormData {
+	const code = anchor.getAttribute('onclick') ?? '';
+	const match = code.match(/document\.getElementById\('(.+?)'\)/);
+	let form;
+	if (match) {
+		form = anchor.ownerDocument.getElementById(match[1])! as HTMLFormElement;
+	}
+	if (!form && anchor.parentElement?.tagName === 'form') {
+		form = anchor.parentElement! as HTMLFormElement;
+	}
+	if (!form) {
+		console.error('eita');
+		console.error(anchor);
+		console.error(code);
+		throw new Error('não achei o form');
+	}
 	let entries = Object.fromEntries(new FormData(form).entries()) as JspViewFormData;
 	try {
-		const extra = JSON.parse(
-			form
-				.querySelector('a')!
-				.getAttribute('onclick')!
-				.match(/({'.+?'})/)![1]
-				.replace(/'/g, '"')
-		);
+		const extra = JSON.parse(code.match(/({'.+?'})/)![1].replace(/'/g, '"'));
 		entries = { ...entries, ...extra };
 	} catch (_) {}
 	return entries;
