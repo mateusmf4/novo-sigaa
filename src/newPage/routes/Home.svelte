@@ -1,9 +1,12 @@
 <script>
 	import Sigaa from '../lib/sigaa';
+	import { userState } from '../lib/state.svelte';
 
 	const dataPromise = (async () => {
 		const data = await Sigaa.getInicial();
 		console.log(data);
+		userState.set(data.userProfile);
+
 		return data;
 	})();
 </script>

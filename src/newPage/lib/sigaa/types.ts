@@ -5,6 +5,7 @@ export interface PaginaInicialTurmaInfo {
 
 export interface PaginaInicial {
 	turmas: PaginaInicialTurmaInfo[];
+	userProfile: UserState;
 }
 
 export interface PaginaTurmaNoticia {
@@ -39,3 +40,9 @@ export interface Frequencia {
 }
 
 export type JspViewFormData = Record<string, string>;
+
+export interface UserState {
+	nome: string;
+	matricula: string;
+	profilePicture: string;
+}

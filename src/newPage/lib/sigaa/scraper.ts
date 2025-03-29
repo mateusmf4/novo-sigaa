@@ -17,6 +17,13 @@ export function parseInicial(document: Document): PaginaInicial {
 	);
 	return {
 		turmas,
+		userProfile: {
+			nome: document.querySelector('#info-usuario p.usuario')!.textContent!.trim(),
+			matricula: document
+				.querySelector('#agenda-docente td:nth-child(2)')!
+				.textContent!.trim(),
+			profilePicture: document.querySelector('div.foto img')!.getAttribute('src')!,
+		},
 	};
 }
 
