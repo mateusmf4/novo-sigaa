@@ -41,7 +41,7 @@
 		<nav class="flex w-2xs flex-col bg-gray-50 p-4">
 			<div class="flex items-stretch gap-3">
 				<img
-					src={`https://api.dicebear.com/9.x/shapes/svg?seed=${id}`}
+					src="https://api.dicebear.com/9.x/shapes/svg?seed={id}"
 					alt="abstract logo"
 					class="h-12 rounded-full"
 				/>
@@ -57,7 +57,7 @@
 			<header class="flex justify-between border-b border-gray-300 p-4">
 				<div class="flex items-stretch gap-4">
 					<img
-						src={`https://api.dicebear.com/9.x/shapes/svg?seed=${id}`}
+						src="https://api.dicebear.com/9.x/shapes/svg?seed={id}"
 						alt="abstract logo"
 						class="h-20 rounded-full"
 					/>
@@ -75,7 +75,7 @@
 						{#await fetchFrequencia(turma).then(totalFaltas)}
 							<ProgressBar value={0} text="..." />
 						{:then faltas}
-							<ProgressBar value={faltas / 14} text={`${faltas} / 14`} />
+							<ProgressBar value={faltas / 14} text="{faltas} / 14" />
 						{/await}
 					</div>
 					<div class="flex items-center gap-2">

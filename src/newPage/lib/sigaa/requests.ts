@@ -1,3 +1,4 @@
+import { sessaoExpirada } from '../state.svelte';
 import type { PaginaTurma, PaginaTurmaNoticia } from './types';
 
 const SIGAA_URL_DISCENTE = 'https://sigaa.ufcg.edu.br/sigaa/portais/discente/discente.jsf' as const;
@@ -28,6 +29,7 @@ function checkErrors(body: string, checkInicial = true): string {
 		throw new RequisicaoInvalida('retornou pagina inicial quando não deveria');
 	}
 	if (body.includes("alert('Sua sess")) {
+		sessaoExpirada.set(true);
 		throw new RequisicaoInvalida('sessão expirada');
 	}
 	return body;

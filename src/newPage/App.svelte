@@ -4,8 +4,10 @@
 
 	import Main from './routes/Home.svelte';
 	import Turma from './routes/Turma.svelte';
-	import { userState } from './lib/state.svelte';
+	import { sessaoExpirada, userState } from './lib/state.svelte';
 	import { toTitleCase } from './lib/utils';
+
+	import Modal from './components/Modal.svelte';
 
 	const RouteName = {
 		Turma: 'turma',
@@ -49,3 +51,22 @@
 		</div>
 	</main>
 </RouterContext>
+
+{#if $sessaoExpirada}
+	<Modal showModal={true}>
+		<div
+			class="flex flex-col items-center gap-2 rounded-xl bg-white p-3 shadow outline outline-gray-300 sm:mx-4"
+		>
+			<h1 class="text-xl">Sua sessão foi expirada</h1>
+			<div class="w-full">
+				<p>Faça login de novo</p>
+			</div>
+			<form method="dialog" class="mt-2">
+				<button
+					class="cursor-pointer rounded px-4 py-1 shadow outline outline-gray-300 transition-all hover:bg-gray-50 hover:shadow-lg focus:outline-gray-500"
+					>OK</button
+				>
+			</form>
+		</div>
+	</Modal>
+{/if}
