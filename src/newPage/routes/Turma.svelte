@@ -54,7 +54,7 @@
 			</div>
 		</nav>
 		<div class="flex flex-1 flex-col overflow-auto">
-			<header class="flex justify-between border-b border-gray-300 p-4">
+			<header class="border-sg-outline flex justify-between border-b p-4">
 				<div class="flex items-stretch gap-4">
 					<img
 						src="https://api.dicebear.com/9.x/shapes/svg?seed={id}"
@@ -93,10 +93,10 @@
 						{/each}
 					</div>
 				</section>
-				<span class="w-full border-b border-gray-300"></span>
+				<span class="border-sg-outline w-full border-b"></span>
 				{#each turma.aulas as aula}
 					<div
-						class="flex flex-col rounded-xl bg-white p-3 shadow outline outline-gray-300"
+						class="outline-sg-outline bg-sg-background flex flex-col rounded-xl p-3 shadow outline"
 					>
 						<h1 class="mb-2 border-b border-gray-200 text-xl">
 							{aula.titulo} ({aula.inicio === aula.fim

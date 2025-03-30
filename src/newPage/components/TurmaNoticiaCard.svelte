@@ -14,7 +14,7 @@
 </script>
 
 <button
-	class="hocus:-translate-y-1.5 hocus:shadow-lg flex max-h-40 w-72 cursor-pointer appearance-none flex-col rounded-xl bg-white p-3 pb-2 text-left shadow outline outline-gray-300 transition-all select-none focus:outline-gray-500"
+	class="hocus:-translate-y-1.5 hocus:shadow-lg outline-sg-outline focus:outline-sg-outline-active bg-sg-background flex max-h-40 w-72 cursor-pointer appearance-none flex-col rounded-xl p-3 pb-2 text-left shadow outline transition-all select-none"
 	onclick={() => {
 		showModal = true;
 	}}
@@ -35,7 +35,7 @@
 
 <Modal bind:showModal class="min-h-32 min-w-72 overflow-visible bg-transparent lg:max-w-3/5">
 	<div
-		class="flex flex-col items-center rounded-xl bg-white p-3 shadow outline outline-gray-300 sm:mx-4"
+		class="outline-sg-outline bg-sg-background flex flex-col items-center rounded-xl p-3 shadow outline sm:mx-4"
 	>
 		<h1 class="mb-1.5 text-xl">
 			{noticia.titulo}
@@ -53,7 +53,7 @@
 		<span class="self-end text-sm text-gray-400 italic">{noticia.horario}</span>
 		<form method="dialog">
 			<button
-				class="cursor-pointer rounded px-4 py-1 shadow outline outline-gray-300 transition-all hover:bg-gray-50 hover:shadow-lg focus:outline-gray-500"
+				class="outline-sg-outline cursor-pointer rounded px-4 py-1 shadow outline transition-all hover:bg-gray-50 hover:shadow-lg focus:outline-gray-500"
 				>OK</button
 			>
 		</form>

@@ -55,7 +55,7 @@
 {#if $sessaoExpirada}
 	<Modal showModal={true}>
 		<div
-			class="flex flex-col items-center gap-2 rounded-xl bg-white p-3 shadow outline outline-gray-300 sm:mx-4"
+			class="outline-sg-outline bg-sg-background flex flex-col items-center gap-2 rounded-xl p-3 shadow outline sm:mx-4"
 		>
 			<h1 class="text-xl">Sua sessão foi expirada</h1>
 			<div class="w-full">
@@ -63,7 +63,7 @@
 			</div>
 			<form method="dialog" class="mt-2">
 				<button
-					class="cursor-pointer rounded px-4 py-1 shadow outline outline-gray-300 transition-all hover:bg-gray-50 hover:shadow-lg focus:outline-gray-500"
+					class="outline-sg-outline cursor-pointer rounded px-4 py-1 shadow outline transition-all hover:bg-gray-50 hover:shadow-lg focus:outline-gray-500"
 					>OK</button
 				>
 			</form>

@@ -20,7 +20,7 @@
 {:then data}
 	<div class="flex flex-col">
 		{#each data.turmas as turma}
-			<a href="/turma/{turma.formData.frontEndIdTurma}" class="text-blue-700 underline">
+			<a href="/turma/{turma.formData.frontEndIdTurma}" class="text-sg-link underline">
 				{turma.nome}
 			</a>
 		{/each}
