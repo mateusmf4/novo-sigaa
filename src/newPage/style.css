@@ -13,7 +13,7 @@
 	--color-sg-outline-active: var(--color-gray-500);
 	--color-sg-text: light-dark(#000000, #ffffff);
 	--color-sg-link: var(--color-blue-700);
-	--color-sg-background: light-dark(#ffffff, #000000);
+	--color-sg-background: light-dark(#ffffff, #1f1f1f);
 }
 
 :root {

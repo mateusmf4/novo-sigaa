@@ -32,7 +32,7 @@
 	{/await}
 </svelte:head>
 
-<div class="flex items-stretch">
+<div class="flex flex-1 items-stretch">
 	{#await dataPromise}
 		<div class="flex flex-1 flex-col items-center justify-center">
 			<p class="italic opacity-50">Carregando...</p>
@@ -87,11 +87,15 @@
 			<div class="flex flex-1 flex-col gap-6 p-6">
 				<section class="flex flex-col">
 					<h2 class="pb-2 text-xl">Ultimas noticias</h2>
-					<div class="flex gap-6">
-						{#each turma.ultimasNoticias as noticia}
-							<TurmaNoticiaCard {noticia} />
-						{/each}
-					</div>
+					{#if turma.ultimasNoticias.length}
+						<div class="flex gap-6">
+							{#each turma.ultimasNoticias as noticia}
+								<TurmaNoticiaCard {noticia} />
+							{/each}
+						</div>
+					{:else}
+						<p class="text-gray-400 italic">Nenhuma noticia registrada</p>
+					{/if}
 				</section>
 				<span class="border-sg-outline w-full border-b"></span>
 				{#each turma.aulas as aula}

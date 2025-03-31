@@ -1,4 +1,10 @@
-import type { Frequencia, JspViewFormData, PaginaInicial, PaginaTurma } from './types';
+import type {
+	Frequencia,
+	JspViewFormData,
+	PaginaInicial,
+	PaginaTurma,
+	PaginaTurmaNoticia,
+} from './types';
 
 export function parseInicial(document: Document): PaginaInicial {
 	const turmas = Array.from(
@@ -42,31 +48,35 @@ export function parseTurma(document: Document): PaginaTurma {
 		.textContent?.replace('-', '')
 		.trim()!;
 	// TODO: jeito melhor de extrair o professor
-	const professor = document
-		.getElementById('ultimaNoticia')
-		?.querySelector('small > i')
-		?.textContent?.trim()!;
+	const professor =
+		document.getElementById('ultimaNoticia')?.querySelector('small > i')?.textContent?.trim() ??
+		'?';
 
-	const noticiasElem = findBlocoDireita('Notícias')!;
-	const noticiasForms = noticiasElem.querySelectorAll('form');
-	const ultimasNoticias = noticiasElem
-		.textContent!.trim()
-		.split('(Visualizar)')
-		.filter((x) => x.trim())
-		.map((str, i) => {
-			const formData = parseJspViewForm(noticiasForms[i].querySelector('a')!);
-			const id = formData.id as string;
-			const [horario, titulo] = str
-				.trim()
-				.split('\n')
-				.map((x) => x.trim());
-			return {
-				id,
-				horario,
-				titulo,
-				formData,
-			};
-		});
+	let ultimasNoticias: PaginaTurmaNoticia[];
+	try {
+		const noticiasElem = findBlocoDireita('Notícias')!;
+		const noticiasForms = noticiasElem.querySelectorAll('form');
+		ultimasNoticias = noticiasElem
+			.textContent!.trim()
+			.split('(Visualizar)')
+			.filter((x) => x.trim())
+			.map((str, i) => {
+				const formData = parseJspViewForm(noticiasForms[i].querySelector('a')!);
+				const id = formData.id as string;
+				const [horario, titulo] = str
+					.trim()
+					.split('\n')
+					.map((x) => x.trim());
+				return {
+					id,
+					horario,
+					titulo,
+					formData,
+				};
+			});
+	} catch (e) {
+		ultimasNoticias = [];
+	}
 
 	const aulas = Array.from(
 		document.querySelectorAll('[id="formAva:panelTopicosNaoSelecionados"] .topico-aula')
