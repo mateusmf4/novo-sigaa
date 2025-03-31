@@ -38,7 +38,7 @@
 			<p class="italic opacity-50">Carregando...</p>
 		</div>
 	{:then turma}
-		<nav class="flex w-2xs flex-col bg-gray-50 p-4">
+		<nav class="flex w-2xs flex-col p-4 border-r border-sg-outline">
 			<div class="flex items-stretch gap-3">
 				<img
 					src="https://api.dicebear.com/9.x/shapes/svg?seed={id}"

@@ -9,15 +9,15 @@
 @custom-variant hocus (&:hover, &:focus);
 
 @theme {
-	--color-sg-outline: var(--color-gray-300);
+	--color-sg-outline: light-dark(var(--color-gray-300), #424242);
 	--color-sg-outline-active: var(--color-gray-500);
-	--color-sg-text: light-dark(#000000, #ffffff);
+	--color-sg-text: light-dark(#000, #eee);
 	--color-sg-link: var(--color-blue-700);
-	--color-sg-background: light-dark(#ffffff, #1f1f1f);
+	--color-sg-background: light-dark(#fff, #1f1f1f);
 }
 
 :root {
-	/* color-scheme: light dark; */
+	color-scheme: light dark;
 	color: var(--color-sg-text);
 	background-color: var(--color-sg-background);
 }

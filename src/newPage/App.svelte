@@ -37,7 +37,7 @@
 
 <RouterContext {options}>
 	<main class="flex min-h-screen flex-col" use:links>
-		<nav class="flex min-h-8 w-full items-center justify-between bg-gray-100 p-2">
+		<nav class="flex min-h-8 w-full items-center justify-between border-b border-sg-outline p-2">
 			<a href="/">Sigaa</a>
 			{#if $userState}
 				<div class="flex items-center gap-2">
