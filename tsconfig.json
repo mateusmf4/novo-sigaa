@@ -16,7 +16,10 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"verbatimModuleSyntax": true,
-		"noImplicitAny": true
+		"noImplicitAny": true,
+		"paths": {
+			"@/*": ["./src/newPage/*"]
+		}
 	},
 	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }]

@@ -1,6 +1,6 @@
 <script>
-	import Sigaa from '../lib/sigaa';
-	import { userState } from '../lib/state.svelte';
+	import Sigaa from '@/lib/sigaa';
+	import { userState } from '@/lib/state.svelte';
 
 	const dataPromise = (async () => {
 		const data = await Sigaa.getInicial();

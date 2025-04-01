@@ -4,6 +4,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import manifest from './src/manifest';
 import tailwindcss from '@tailwindcss/vite';
 import sveltePreprocess from 'svelte-preprocess';
+import path from 'node:path';
 
 export default defineConfig(({ mode }) => {
 	const production = mode === 'production';
@@ -30,6 +31,11 @@ export default defineConfig(({ mode }) => {
 		},
 		server: {
 			cors: true,
+		},
+		resolve: {
+			alias: {
+				'@': path.resolve(__dirname, 'src/newPage'),
+			},
 		},
 	};
 });
